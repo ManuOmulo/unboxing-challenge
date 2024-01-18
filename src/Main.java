@@ -11,18 +11,16 @@ record Bank(String bankName, ArrayList<Customer> customers) {
     }
   }
 
-  public void addCustomerTransaction(String customerName, double transaction) {
-    int index = customers.indexOf(customerName);
-    customers.get(index).transactions().add(transaction);
+  public void addCustomerTransaction(Customer customer, double transaction) {
+    customer.transactions().add(transaction);
   }
 
-  public void printStatement(String customerName) {
-    int index = customers.indexOf(customerName);
-    String customer = customers.get(index).name();
-    ArrayList<Double> transactions = customers.get(index).transactions();
+  public void printStatement(Customer customer) {
+    System.out.printf("%s's transactions: \n", customer.name());
 
-    System.out.printf("%s's transactions: \n", customer);
-    System.out.println(transactions);
+    for (double transaction : customer.transactions()) {
+      System.out.println(transaction);
+    }
   }
 }
 
@@ -33,12 +31,11 @@ public class Main {
     Customer c2 = new Customer("Philip", addTransactions(55.20, 220.00, -93.25));
     Customer c3 = new Customer("Mike", addTransactions(12.0, 55.0, 100.0));
 
-    System.out.println(c1);
-
     Bank chaseBank = new Bank("Chase Bank", addCustomers(c1, c2));
     chaseBank.addCustomer(c3);
-    chaseBank.addCustomerTransaction("Mike", -25.70);
-    chaseBank.printStatement("Emmanuel");
+    chaseBank.addCustomerTransaction(c3, -25.70);
+    chaseBank.printStatement(c1);
+    chaseBank.printStatement(c3);
   }
 
   public static ArrayList<Double> addTransactions(double... transactions) {
